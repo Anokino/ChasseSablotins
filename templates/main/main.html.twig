@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bienvenue sur le site de la Chasse aux Sablotins !{% endblock %}
+
+{% block body %}
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
+    .main-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+    }
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+    .grid-button {
+        background-color: #000;
+        color: #fff;
+        padding: 1rem;
+        text-align: center;
+    }
+</style>
+<!-- on affiche 3 boutons : téléphone, borne, backoffice -->
+<div class="main-container">
+<h1>Bienvenue sur le site de la Chasse aux Sablotins !</h1>
+<p>Choisissez votre mode de connexion :</p>
+<div class="grid-container">
+    <a href="{{ path('app_telephone') }}" class="grid-button">Téléphone</a>
+    <a href="{{ path('app_borne') }}" class="grid-button">Borne</a>
+    <a href="{{ path('app_back_office') }}" class="grid-button">Backoffice</a>
+</div>
+<p>Si vous ne savez pas quoi choisir, choisissez "Téléphone".</p>
+</div>
+{% endblock %}

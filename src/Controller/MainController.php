@@ -11,11 +11,14 @@ use App\Entity\MotDuJour;
 
 class MainController extends AbstractController
 {
-    #[Route('/main', name: 'app_main')]
+    #[Route('/', name: 'app')]
     public function index(): Response
     {
-        return $this->render('main/index.html.twig', [
-            'controller_name' => 'MainController',
-        ]);
+        return $this->redirectToRoute('app_main');
+    }
+    #[Route('/main', name: 'app_main')]
+    public function main(): Response
+    {
+        return $this->render('main/main.html.twig');
     }
 }

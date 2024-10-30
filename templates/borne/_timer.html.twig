@@ -11,16 +11,39 @@
     const resetTimer = () => {
         clearTimeout(timer);
         if (animationContainer) {
-            animationContainer.style.display = 'none'; // Masque le container de l'animation
+            animationContainer.style.display = 'none';
+            // Réinitialiser l'animation Lottie
+            if (lottiePlayer) {
+                lottiePlayer.stop();
+            }
         }
-        timer = setTimeout(redirectToHome, 10000); // 10 secondes
+        
+        // Stocke le temps de départ
+        const startTime = new Date().getTime();
+        
+        timer = setTimeout(() => {
+            redirectToHome();
+        }, 10000);
 
-        const remainingTime = 10000 - (new Date().getTime() - timer);
-        if (remainingTime <= 5000 && animationContainer) {
-            animationContainer.style.display = 'block'; // Affiche l'animation si moins de 5 secondes restantes
-        } else if (animationContainer) {
-            animationContainer.style.display = 'none'; // Masque l'animation si plus de 5 secondes restantes
-        }
+        // Vérifie périodiquement le temps écoulé
+        const checkTime = () => {
+            const elapsedTime = new Date().getTime() - startTime;
+            if (elapsedTime >= 5000 && animationContainer) {
+                animationContainer.style.display = 'block';
+                // Relancer l'animation Lottie
+                if (lottiePlayer) {
+                    lottiePlayer.play();
+                }
+            } else if (animationContainer) {
+                animationContainer.style.display = 'none';
+            }
+            
+            if (elapsedTime < 10000) {
+                requestAnimationFrame(checkTime);
+            }
+        };
+        
+        requestAnimationFrame(checkTime);
     };
 
     // Créez l'animation Lottie dès le début
@@ -42,7 +65,6 @@
         lottiePlayer.setAttribute('direction', '1');
         lottiePlayer.setAttribute('playMode', 'normal');
         lottiePlayer.setAttribute('loop', '');
-        lottiePlayer.setAttribute('autoplay', '');
         animationContainer.appendChild(lottiePlayer);
 
         resetTimer(); // Démarre le timer
