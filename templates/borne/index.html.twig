@@ -1,0 +1,102 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello BorneController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <h1>Hello {{ controller_name }}! ✅</h1>
+
+    This friendly message is coming from:
+    <ul>
+        <li>Your controller at <code>C:/Users/nkolo/Desktop/CDUI/!Sablotins/ChasseSablotins/src/Controller/BorneController.php</code></li>
+        <li>Your template at <code>C:/Users/nkolo/Desktop/CDUI/!Sablotins/ChasseSablotins/templates/borne/index.html.twig</code></li>
+    </ul>
+</div>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
+
+    .grid-container {
+        height: 100vh;
+        width: 100vw;
+        position: fixed;
+        top: 0;
+        left: 0;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: 2fr 1fr;
+        gap: 3rem;
+        padding: 3rem;
+        background-color: #FFE5F1;
+        background-image: 
+            radial-gradient(circle at 25% 25%, #FFB6C1 5%, transparent 10%),
+            radial-gradient(circle at 75% 75%, #87CEEB 5%, transparent 10%),
+            radial-gradient(circle at 50% 50%, #98FB98 5%, transparent 10%);
+        box-sizing: border-box;
+    }
+
+    .grid-button {
+        width: 100%;
+        height: 100%;
+        font-size: 2.5rem;
+        font-family: 'Comic Neue', cursive;
+        font-weight: bold;
+        border: 8px solid #FFF;
+        border-radius: 2rem;
+        background: linear-gradient(145deg, #FF6B6B, #4ECDC4);
+        color: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        padding: 1rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .grid-button:before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: rgba(255,255,255,0.1);
+        transform: rotate(45deg);
+        transition: all 0.3s ease;
+    }
+
+    .grid-button:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    }
+
+    .grid-button:hover:before {
+        left: 100%;
+    }
+
+    .full-width {
+        grid-column: 1 / span 2;
+        background: linear-gradient(145deg, #FFB347, #FFCBA4);
+    }
+</style>
+
+<div class="grid-container">
+    <button class="grid-button" onclick="window.location.href='{{ path('app_borne_question') }}'">
+        🎯 Répondre à une question
+    </button>
+    
+    <button class="grid-button" onclick="window.location.href='{{ path('app_borne_finish') }}'">
+        🎉 J'ai fini !
+    </button>
+    
+    <button class="grid-button full-width" onclick="window.location.href='{{ path('app_borne_coming_soon') }}'">
+        🌟 Surprise à venir ! 🌟
+    </button>
+</div>
+
+{% endblock %}

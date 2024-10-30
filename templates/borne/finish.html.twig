@@ -1,0 +1,360 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+{{ include('borne/_timer.html.twig') }}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
+
+    .finish-container {
+        height: 100vh;
+        width: 100vw;
+        position: fixed;
+        top: 0;
+        left: 0;
+        padding: 3rem;
+        background-color: #FFE5F1;
+        background-image: 
+            radial-gradient(circle at 25% 25%, #FFB6C1 5%, transparent 10%),
+            radial-gradient(circle at 75% 75%, #87CEEB 5%, transparent 10%),
+            radial-gradient(circle at 50% 50%, #98FB98 5%, transparent 10%);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        box-sizing: border-box;
+    }
+
+    .form-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .finish-title {
+        font-family: 'Comic Neue', cursive;
+        font-size: 3rem;
+        color: #FF6B6B;
+        text-align: center;
+        margin-bottom: 2rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .number-input {
+        width: 150px;
+        font-size: 1.8rem;
+        font-family: 'Comic Neue', cursive;
+        padding: 1rem;
+        border: 8px solid #FFF;
+        border-radius: 2rem;
+        text-align: center;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        background: #fbf1f5;
+        -moz-appearance: textfield;
+    }
+
+    .number-input::-webkit-outer-spin-button,
+    .number-input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    .number-input-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .number-arrows {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .number-arrow {
+        background: white;
+        border: 4px solid #FF6B6B;
+        border-radius: 1rem;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 1.5rem;
+        color: #FF6B6B;
+        transition: all 0.2s ease;
+        user-select: none;
+    }
+
+    .number-arrow:hover {
+        background: #FF6B6B;
+        color: white;
+    }
+
+    .button {
+        font-size: 2rem;
+        font-family: 'Comic Neue', cursive;
+        font-weight: bold;
+        padding: 1rem 3rem;
+        border: 8px solid #FFF;
+        border-radius: 2rem;
+        background: linear-gradient(145deg, #FF6B6B, #4ECDC4);
+        color: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        margin: 1rem;
+        text-decoration: none;
+    }
+
+    .button:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    }
+
+    .decode-button {
+        background: linear-gradient(145deg, #FFB347, #FFCBA4);
+        margin-top: 2rem;
+    }
+
+    .popup {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.9);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .popup img {
+        max-width: 90%;
+        max-height: 90%;
+        border-radius: 2rem;
+        box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+    }
+
+    .numbers-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+        margin: 1rem;
+        min-height: 50px;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 1rem;
+        width: 80%;
+        max-width: 600px;
+    }
+
+    .number-tag {
+        background: white;
+        padding: 0.5rem 1rem;
+        border-radius: 1rem;
+        font-family: 'Comic Neue', cursive;
+        font-size: 1.5rem;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .input-group {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .error-message {
+        width: max-content;
+        max-width: 80%;
+        font-family: 'Comic Neue', cursive;
+        font-size: 2rem;
+        color: #FF6B6B;
+        text-align: center;
+        padding: 1rem 2rem;
+        background: rgba(255, 255, 255, 0.9);
+        border: 4px solid #FF6B6B;
+        border-radius: 2rem;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        animation: fadeInOut 4s ease-in-out forwards;
+        position: fixed;
+        top: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1000;
+    }
+
+    @keyframes fadeInOut {
+        0% {
+            opacity: 0;
+            transform: translate(-50%, -20px);
+        }
+        10% {
+            opacity: 1;
+            transform: translate(-50%, 0);
+        }
+        80% {
+            opacity: 1;
+            transform: translate(-50%, 0);
+        }
+        100% {
+            opacity: 0;
+            transform: translate(-50%, -20px);
+        }
+    }
+
+    .popup-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .popup-title {
+        font-family: 'Comic Neue', cursive;
+        font-size: 2rem;
+        color: #FF6B6B;
+    }
+    .popup-subtitle {
+        font-family: 'Comic Neue', cursive;
+        font-size: 1.5rem;
+        color: white;
+    }
+</style>
+
+<div class="finish-container">
+    <h1 class="finish-title">🔢 Entre tous les numéros affichés en haut de ton téléphone 📱</h1>
+    {% if error %}
+        <div class="error-message">
+            <span>❌</span>
+            Vérifie que tu as entré tous les nombres
+            <span>❌</span>
+        </div>
+    {% endif %}
+
+    <!--<div class="numbers-list" id="numbersList">
+        {% if numbers is not empty %}
+            {% for number in numbers %}
+                <span class="number-tag">{{ "%02d"|format(number) }}</span>
+            {% endfor %}
+        {% endif %}
+    </div>-->
+
+    <div class="numbers-list" id="numbersList">
+    </div>
+
+    <form action="{{ path('app_borne_validate_numbers') }}" method="post" class="form-container" id="numbersForm">
+        <div class="input-group">
+            <div class="number-input-wrapper">
+                <input type="number" 
+                       class="number-input"
+                       id="numberInput" 
+                       placeholder="✨ XX ✨"
+                       min="1"
+                       max="99"
+                       inputmode="numeric">
+                <div class="number-arrows">
+                    <div class="number-arrow" onclick="adjustNumber(1)">▲</div>
+                    <div class="number-arrow" onclick="adjustNumber(-1)">▼</div>
+                </div>
+            </div>
+
+            <button type="button" class="button" onclick="ajouterNumero()">
+                ➕ Ajouter
+            </button>
+        </div>
+
+        <button type="submit" class="button">
+            ✅ J'ai écris tous les numéros
+        </button>
+    </form>
+
+    <button onclick="document.getElementById('popup').style.display='flex'" class="button decode-button">
+        🎭 Décoder mon mot 🎭
+    </button>
+</div>
+
+
+
+<div id="popup" class="popup" {% if popup is defined and popup %}style="display: flex"{% else %}style="display: none"{% endif %} onclick="this.style.display='none'">
+    <div class="popup-content">
+        <p class="popup-title">Voici les nombres :</p>
+        {% if motDuJourNombres is not empty %}
+            <div class="numbers-list">
+                {% for number in motDuJourNombres %}
+                    <span class="number-tag">{{ "%02d"|format(number) }}</span>
+        {% endfor %}
+    </div>
+        {% endif %}
+        <p class="popup-subtitle">Tu peux maintenant décoder ton mot en scannant le Code ci-dessous !</p>
+        {% set qrCode = qr_code_result('192.168.1.17:8000/telephone/decode?numbers=' ~ motDuJourNombres|join(',')) %}
+        <img src="{{ qrCode.dataUri }}" width="{{ qrCode.matrix.outerSize }}" alt="Aide pour décoder le mot"/>
+        <a href="{{ path('app_borne') }}" class="button">
+            👍 J'ai scanné le code !
+        </a>
+    </div>
+</div>
+
+<script>
+function ajouterNumero() {
+    const input = document.getElementById('numberInput');
+    const numbersList = document.getElementById('numbersList');
+    const form = document.getElementById('numbersForm');
+
+    if(input.value && input.value >= 0 && input.value <= 99) {
+        const numeroTag = document.createElement('span');
+        numeroTag.className = 'number-tag';
+        numeroTag.textContent = input.value.padStart(2, '0');
+        numbersList.appendChild(numeroTag);
+
+        // Ajouter un champ caché pour le nombre
+        const hiddenInput = document.createElement('input');
+        hiddenInput.type = 'hidden';
+        hiddenInput.name = 'numbers[]';
+        hiddenInput.value = input.value;
+        form.appendChild(hiddenInput);
+
+        input.value = '';
+    }
+}
+
+// Pré-remplir les champs cachés avec les nombres existants
+/*{% if numbers is not empty %}
+    {% for number in numbers %}
+        const hiddenInput = document.createElement('input');
+        hiddenInput.type = 'hidden';
+        hiddenInput.name = 'numbers[]';
+        hiddenInput.value = '{{ number }}';
+        document.getElementById('numbersForm').appendChild(hiddenInput);
+    {% endfor %}
+{% endif %}*/
+
+function adjustNumber(increment) {
+    const input = document.getElementById('numberInput');
+    let value = parseInt(input.value) || 1;
+    value = Math.min(99, Math.max(1, value + increment));
+    input.value = value;
+}
+
+document.getElementById('numberInput').addEventListener('input', function(e) {
+    let value = parseInt(this.value);
+    if (isNaN(value)) {
+        this.value = 1;
+    } else {
+        this.value = Math.min(99, Math.max(1, value));
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const errorMessage = document.querySelector('.error-message');
+    if (errorMessage) {
+        setTimeout(() => {
+            errorMessage.remove();
+        }, 4000); // 4 secondes, correspondant à la durée de l'animation
+    }
+});
+</script>
+{% endblock %}

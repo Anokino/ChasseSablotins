@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
+
+    .container {
+        padding: 3rem;
+        background-color: #FFE5F1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        box-sizing: border-box;
+    }
+
+    .title {
+        font-family: 'Comic Neue', cursive;
+        font-size: 3rem;
+        color: #FF6B6B;
+        text-align: center;
+        margin-bottom: 2rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .numbers-list {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    table {
+        width: 80%;
+        border-collapse: collapse;
+        margin-top: 2rem;
+    }
+
+    th, td {
+        border: 2px solid #FF6B6B;
+        padding: 1rem;
+        text-align: center;
+        font-size: 1.5rem;
+        font-family: 'Comic Neue', cursive;
+    }
+
+    th {
+        background-color: #FFB6C1;
+    }
+</style>
+
+<div class="container">
+    <h1 class="title">Nombres à Décoder</h1>
+    <div class="numbers-list">
+        {% for number in numbers %}
+            <span class="number-tag">{{ number }}</span>{% if not loop.last %}, {% endif %}
+        {% endfor %}
+    </div>
+    <form action="{{ path('app_telephone_finish') }}" method="post" class="mot-input-container">
+        <input type="text" class="mot-input" placeholder="✨ Entre le mot que tu as trouvé ✨" name="mot" />
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Chiffre</th>
+                <th>Lettre</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in 1..26 %}
+                <tr>
+                    <td>{{ i }}</td>
+                    <td>{{ 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'|slice(i - 1, 1) }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %} 

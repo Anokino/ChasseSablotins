@@ -1,0 +1,143 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bravo ! Vous avez gagné !{% endblock %}
+
+{% block body %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
+
+    body {
+        margin: 0;
+        overflow: hidden;
+        background-color: #FFE5F1;
+        font-family: 'Comic Neue', cursive;
+    }
+
+    .celebration-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        text-align: center;
+        position: relative;
+        background-color: #FFE5F1;
+        background-image: 
+            linear-gradient(to bottom, #FFE5F1, #FFB6C1, #87CEEB, #98FB98),
+            radial-gradient(circle at 25% 25%, #FFB6C1 5%, transparent 10%),
+            radial-gradient(circle at 75% 75%, #87CEEB 5%, transparent 10%),
+            radial-gradient(circle at 50% 50%, #98FB98 5%, transparent 10%);
+    }
+
+    .celebration-title {
+        font-size: 4rem;
+        color: #FF6B6B;
+        margin-bottom: 2rem;
+        animation: bounce 1s infinite;
+        background-color: #FFE5F1;
+        padding: 1rem;
+        border-radius: 1rem;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .celebration-message {
+        font-size: 2rem;
+        color: #4ECDC4;
+        margin-bottom: 3rem;
+        background-color: #FFE5F1;
+        padding: 1rem;
+        border-radius: 1rem;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% {
+            transform: translateY(0);
+        }
+        40% {
+            transform: translateY(-30px);
+        }
+        60% {
+            transform: translateY(-15px);
+        }
+    }
+
+    /* Styles pour les confettis */
+    .confetti {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background-color: #FF6B6B;
+        opacity: 0.8;
+        animation: fall 3s infinite;
+        border-radius: 50%;
+    }
+
+    @keyframes fall {
+        0% {
+            transform: translateY(-100%);
+        }
+        100% {
+            transform: translateY(100vh);
+        }
+    }
+
+    /* Styles pour les feux d'artifice */
+    .firework {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background-color: #FFD700;
+        border-radius: 50%;
+        animation: explode 1s forwards;
+    }
+
+    @keyframes explode {
+        0% {
+            transform: scale(1);
+            opacity: 1;
+        }
+        100% {
+            transform: scale(5);
+            opacity: 0;
+        }
+    }
+</style>
+
+<div class="celebration-container">
+    <h1 class="celebration-title">🎉 Bravo ! Vous avez gagné ! 🎉</h1>
+    <p class="celebration-message">Vous êtes un champion ! 🌟</p>
+</div>
+
+<script>
+    // Générer des confettis
+    function createConfetti() {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * 100 + 'vw';
+        confetti.style.top = Math.random() * 10 + 'vh';
+        confetti.style.backgroundColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+        document.body.appendChild(confetti);
+        setTimeout(() => {
+            confetti.remove();
+        }, 3000);
+    }
+
+    // Générer des feux d'artifice
+    function createFirework() {
+        const firework = document.createElement('div');
+        firework.className = 'firework';
+        firework.style.left = Math.random() * 100 + 'vw';
+        firework.style.top = Math.random() * 50 + 'vh';
+        document.body.appendChild(firework);
+        setTimeout(() => {
+            firework.remove();
+        }, 1000);
+    }
+
+    // Lancer les animations
+    setInterval(createConfetti, 100);
+    setInterval(createFirework, 500);
+</script>
+
+{% endblock %}

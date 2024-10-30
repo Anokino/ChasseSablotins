@@ -1,0 +1,95 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
+
+    .question-container {
+        height: 100vh;
+        width: 100vw;
+        position: fixed;
+        top: 0;
+        left: 0;
+        padding: 3rem;
+        background-color: #FFE5F1;
+        background-image: 
+            radial-gradient(circle at 25% 25%, #FFB6C1 5%, transparent 10%),
+            radial-gradient(circle at 75% 75%, #87CEEB 5%, transparent 10%),
+            radial-gradient(circle at 50% 50%, #98FB98 5%, transparent 10%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+    }
+
+    .form-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .question-title {
+        font-family: 'Comic Neue', cursive;
+        font-size: 3rem;
+        color: #FF6B6B;
+        text-align: center;
+        margin-bottom: 2rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .answer-input {
+        width: 80%;
+        max-width: 600px;
+        font-size: 1.8rem;
+        font-family: 'Comic Neue', cursive;
+        padding: 1rem;
+        border: 8px solid #FFF;
+        border-radius: 2rem;
+        text-align: center;
+        margin-bottom: 2rem;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        background: white;
+    }
+
+    .submit-button {
+        font-size: 2rem;
+        font-family: 'Comic Neue', cursive;
+        font-weight: bold;
+        padding: 1rem 3rem;
+        border: 8px solid #FFF;
+        border-radius: 2rem;
+        background: linear-gradient(145deg, #FF6B6B, #4ECDC4);
+        color: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .submit-button:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    }
+</style>
+
+<div class="question-container">
+    <h1 class="question-title">🤔 Réponds à la question qui est affichée sur ton téléphone 📱</h1>
+
+    <form action="{{ path('app_borne_reponse_question') }}" method="POST" class="form-container">
+        <input type="text" 
+               class="answer-input"
+               id="reponse" 
+               name="reponse" 
+               placeholder="✨ Entre ta réponse ici ✨"
+               required>
+
+        <div style="text-align: center">
+            <button type="submit" class="submit-button">
+                🎯 Valider
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}

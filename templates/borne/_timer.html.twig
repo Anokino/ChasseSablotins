@@ -1,0 +1,66 @@
+<script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
+<script>
+    let timer;
+    let animationContainer;
+    let lottiePlayer;
+
+    const redirectToHome = () => {
+        window.location.href = '/borne'; // Remplacez par l'URL de votre page d'accueil
+    };
+
+    const resetTimer = () => {
+        clearTimeout(timer);
+        if (animationContainer) {
+            animationContainer.style.display = 'none'; // Masque le container de l'animation
+        }
+        timer = setTimeout(redirectToHome, 10000); // 10 secondes
+
+        const remainingTime = 10000 - (new Date().getTime() - timer);
+        if (remainingTime <= 5000 && animationContainer) {
+            animationContainer.style.display = 'block'; // Affiche l'animation si moins de 5 secondes restantes
+        } else if (animationContainer) {
+            animationContainer.style.display = 'none'; // Masque l'animation si plus de 5 secondes restantes
+        }
+    };
+
+    // Créez l'animation Lottie dès le début
+    window.onload = () => {
+        animationContainer = document.createElement('div');
+        animationContainer.style.position = 'absolute';
+        animationContainer.style.zIndex = '1000';
+        animationContainer.style.top = '0px';
+        animationContainer.style.right = '0px';
+        animationContainer.style.display = 'none'; // Masque l'animation au départ
+        document.body.appendChild(animationContainer);
+
+        lottiePlayer = document.createElement('dotlottie-player');
+        lottiePlayer.setAttribute('src', 'https://lottie.host/a3821694-9f9f-47e1-9781-8f170d48b9c1/AfDnMzbh5I.lottie');
+        lottiePlayer.setAttribute('background', 'transparent');
+        lottiePlayer.setAttribute('speed', '1');
+        lottiePlayer.style.width = '300px';
+        lottiePlayer.style.height = '300px';
+        lottiePlayer.setAttribute('direction', '1');
+        lottiePlayer.setAttribute('playMode', 'normal');
+        lottiePlayer.setAttribute('loop', '');
+        lottiePlayer.setAttribute('autoplay', '');
+        animationContainer.appendChild(lottiePlayer);
+
+        resetTimer(); // Démarre le timer
+    };
+
+    // Écoutez les événements d'interaction que ce soit sur pc, mobile, tablette
+    document.onmousemove = resetTimer;
+    document.onkeypress = resetTimer;
+    document.ontouchmove = resetTimer;
+    document.ontouchend = resetTimer;
+    document.onscroll = resetTimer;
+    document.onkeydown = resetTimer;
+    document.onmouseup = resetTimer;
+    document.onmousedown = resetTimer;
+    document.onmouseover = resetTimer;
+    document.onmouseout = resetTimer;
+    document.onmousemove = resetTimer;
+    document.onmouseleave = resetTimer;
+    document.onmouseenter = resetTimer;
+
+</script>
