@@ -171,6 +171,14 @@
                             <td>
                                 <button type="submit" class="button">Modifier</button>
                                 <a href="{{ path('app_back_office_delete_question', {'id': question.id}) }}" class="button red">Supprimer</a>
+                                <button type="button" class="button" onclick="document.getElementById('popup-{{ question.id }}').style.display='flex'">Afficher QR Code</button>
+                                <div id="popup-{{ question.id }}" class="popup" style="display: none" onclick="this.style.display='none'">
+                                    <div class="popup-content">
+                                        <h3>QR Code pour la question {{ question.id }}</h3>
+                                        {% set qrCode = qr_code_result(url('app_question', {'id': question.id})) %}
+                                        <img src="{{ qrCode.dataUri }}" width="{{ qrCode.matrix.outerSize }}" alt="QR Code question {{ question.id }}"/>
+                                    </div>
+                                </div>
                             </td>
                         </form>
                     </tr>

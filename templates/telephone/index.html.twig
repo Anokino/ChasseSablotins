@@ -1,20 +1,142 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello TelephoneController!{% endblock %}
-
 {% block body %}
 <style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
+
+    .phone-container {
+        height: 100vh;
+        width: 100vw;
+        position: fixed;
+        top: 0;
+        left: 0;
+        padding: 2rem;
+        background-color: #E0F7FA;
+        background-image: 
+            radial-gradient(circle at 15% 15%, #FFD54F 3%, transparent 8%),
+            radial-gradient(circle at 85% 85%, #81C784 3%, transparent 8%),
+            radial-gradient(circle at 50% 50%, #FF8A65 3%, transparent 8%);
+        animation: backgroundMove 20s infinite linear;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+        overflow: hidden;
+    }
+
+    @keyframes backgroundMove {
+        0% { background-position: 0% 0%; }
+        100% { background-position: 100% 100%; }
+    }
+
+    .phone-content {
+        background: rgba(255, 255, 255, 0.9);
+        padding: 2rem;
+        border-radius: 2rem;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        text-align: center;
+        max-width: 600px;
+        width: 90%;
+        animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-20px); }
+        100% { transform: translateY(0px); }
+    }
+
+    .phone-title {
+        font-family: 'Comic Neue', cursive;
+        font-size: 2.5rem;
+        color: #FF6B6B;
+        margin-bottom: 2rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .scanner-container {
+        position: relative;
+        margin: 2rem auto;
+        max-width: 500px;
+    }
+
+    #reader {
+        border-radius: 1rem;
+        overflow: hidden;
+        box-shadow: 0 0 0 8px #FFF, 0 0 0 12px #FF6B6B;
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0% { box-shadow: 0 0 0 8px #FFF, 0 0 0 12px #FF6B6B; }
+        50% { box-shadow: 0 0 0 12px #FFF, 0 0 0 18px #FF6B6B; }
+        100% { box-shadow: 0 0 0 8px #FFF, 0 0 0 12px #FF6B6B; }
+    }
+
+    .instruction-text {
+        font-family: 'Comic Neue', cursive;
+        font-size: 1.5rem;
+        color: #666;
+        margin: 2rem 0;
+    }
 </style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+<div class="phone-container">
+    <div class="phone-content">
+        <h1 class="phone-title">📱 Scanner Magique 📱</h1>
+        
+        <p class="instruction-text">
+            🎯 Cherche les QR codes cachés et scanne-les ! 🔍
+        </p>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/Users/nkolo/Desktop/CDUI/Sablotins/ChasseSablotins/src/Controller/TelephoneController.php</code></li>
-        <li>Your template at <code>C:/Users/nkolo/Desktop/CDUI/Sablotins/ChasseSablotins/templates/telephone/index.html.twig</code></li>
-    </ul>
+        <div class="scanner-container">
+            <div id="reader"></div>
+        </div>
+    </div>
 </div>
+
+<script src="https://unpkg.com/html5-qrcode"></script>
+<script>
+    // Empêcher le retour arrière
+    history.pushState(null, null, location.href);
+    window.onpopstate = function () {
+        history.go(1);
+    };
+
+    // Initialiser le scanner
+    let html5QrcodeScanner = new Html5QrcodeScanner(
+        "reader",
+        { 
+            fps: 10,
+            qrbox: {width: 250, height: 250},
+            aspectRatio: 1.0
+        }
+    );
+
+    function onScanSuccess(decodedText, decodedResult) {
+        // Arrêter le scanner
+        html5QrcodeScanner.clear();
+        
+        // Rediriger vers l'URL du QR code
+        window.location.href = decodedText;
+    }
+
+    function onScanFailure(error) {
+        // Gérer les erreurs silencieusement
+    }
+
+    // Démarrer le scanner
+    html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+
+    // Désactiver le menu contextuel
+    document.addEventListener('contextmenu', event => event.preventDefault());
+
+    // Désactiver les touches de navigation
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Backspace' || e.key === 'F5' || (e.key === 'r' && e.ctrlKey)) {
+            e.preventDefault();
+        }
+    });
+</script>
 {% endblock %}
