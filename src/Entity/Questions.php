@@ -14,15 +14,14 @@ class Questions
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $question = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $Reponse = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $reponse = null;
 
-    #[ORM\Column]
-    private ?int $Nombre = null;
-
+    #[ORM\Column(type: Types::ARRAY, nullable: true)]
+    private ?array $nombre = null;
 
     public function getId(): ?int
     {
@@ -34,7 +33,7 @@ class Questions
         return $this->question;
     }
 
-    public function setQuestion(string $question): static
+    public function setQuestion(?string $question): static
     {
         $this->question = $question;
 
@@ -43,23 +42,24 @@ class Questions
 
     public function getReponse(): ?string
     {
-        return $this->Reponse;
+        return $this->reponse;
     }
 
-    public function setReponse(string $Reponse): static
+    public function setReponse(?string $reponse): static
     {
-        $this->Reponse = $Reponse;
+        $this->reponse = $reponse;
 
         return $this;
     }
-    public function getNombre(): ?int
+
+    public function getNombre(): ?array
     {
-        return $this->Nombre;
+        return $this->nombre;
     }
 
-    public function setNombre(int $Nombre): static
+    public function setNombre(?array $nombre): static
     {
-        $this->Nombre = $Nombre;
+        $this->nombre = $nombre;
 
         return $this;
     }

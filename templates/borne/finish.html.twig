@@ -19,7 +19,7 @@
             radial-gradient(circle at 50% 50%, #98FB98 5%, transparent 10%);
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
         box-sizing: border-box;
     }
@@ -274,9 +274,9 @@
         </button>
     </form>
 
-    <button onclick="document.getElementById('popup').style.display='flex'" class="button decode-button">
+    <!--<button onclick="document.getElementById('popup').style.display='flex'" class="button decode-button">
         🎭 Décoder mon mot 🎭
-    </button>
+    </button>-->
 </div>
 
 
@@ -336,8 +336,19 @@ function ajouterNumero() {
 
 function adjustNumber(increment) {
     const input = document.getElementById('numberInput');
-    let value = parseInt(input.value) || 1;
-    value = Math.min(99, Math.max(1, value + increment));
+    let value = parseInt(input.value);
+    
+    if (isNaN(value)) {
+        // Si l'input n'a pas encore été touché et qu'on appuie sur la flèche du haut
+        if (increment > 0) {
+            value = 1;
+        } else {
+            value = 1;
+        }
+    } else {
+        value = Math.min(99, Math.max(1, value + increment));
+    }
+    
     input.value = value;
 }
 

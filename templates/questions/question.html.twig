@@ -1,0 +1,161 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
+
+    .question-container {
+        height: 100vh;
+        width: 100vw;
+        position: fixed;
+        top: 0;
+        left: 0;
+        padding: 2rem;
+        background-color: #FFE5F1;
+        background-image: 
+            radial-gradient(circle at 25% 25%, #FFB6C1 5%, transparent 10%),
+            radial-gradient(circle at 75% 75%, #87CEEB 5%, transparent 10%),
+            radial-gradient(circle at 50% 50%, #98FB98 5%, transparent 10%);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        box-sizing: border-box;
+    }
+
+    .question-content {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        width: 100%;
+    }
+
+    .question-title {
+        font-family: 'Comic Neue', cursive;
+        font-size: 2.5rem;
+        color: #FF6B6B;
+        text-align: center;
+        margin-bottom: 2rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .question-text {
+        font-family: 'Comic Neue', cursive;
+        font-size: 2rem;
+        color: #333;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 2rem;
+        border-radius: 2rem;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        margin-bottom: 2rem;
+        width: 90%;
+        max-width: 600px;
+    }
+
+    .instruction-text {
+        font-family: 'Comic Neue', cursive;
+        font-size: 1.5rem;
+        color: #666;
+        text-align: center;
+        margin: 2rem 0;
+    }
+
+    .button {
+        font-size: 2rem;
+        font-family: 'Comic Neue', cursive;
+        font-weight: bold;
+        padding: 1rem 3rem;
+        border: 8px solid #FFF;
+        border-radius: 2rem;
+        background: linear-gradient(145deg, #FF6B6B, #4ECDC4);
+        color: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        margin: 1rem;
+        text-decoration: none;
+    }
+
+    .button:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    }
+
+    #reader {
+        width: 100%;
+        max-width: 600px;
+        display: none;
+    }
+</style>
+
+<div class="question-container">
+    <div class="question-content">
+        <h1 class="question-title">❓ Question ❓</h1>
+        <div class="question-text">
+            {{ question.question }}
+        </div>
+        <p class="instruction-text">
+            🎯 Retourne à la borne pour répondre à la question ! 🎯
+        </p>
+    </div>
+    
+    <button class="button" id="scanButton" onclick="startScanner()">
+        📷 J'ai répondu !
+    </button>
+    
+    <div id="reader"></div>
+</div>
+
+<script src="https://unpkg.com/html5-qrcode"></script>
+<script>
+    // Empêcher le retour arrière
+    history.pushState(null, null, location.href);
+    window.onpopstate = function () {
+        history.go(1);
+    };
+
+    let html5QrcodeScanner;
+
+    function startScanner() {
+        document.getElementById('reader').style.display = 'block';
+        document.getElementById('scanButton').style.display = 'none';
+
+        html5QrcodeScanner = new Html5QrcodeScanner(
+            "reader", 
+            { 
+                fps: 10,
+                qrbox: {width: 250, height: 250},
+                aspectRatio: 1.0
+            }
+        );
+        
+        html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+    }
+
+    function onScanSuccess(decodedText, decodedResult) {
+        // Arrêter le scanner
+        html5QrcodeScanner.clear();
+        
+        // Rediriger vers l'URL du QR code
+        window.location.href = decodedText;
+    }
+
+    function onScanFailure(error) {
+        // Gérer les erreurs silencieusement
+    }
+
+    // Désactiver le menu contextuel
+    document.addEventListener('contextmenu', event => event.preventDefault());
+
+    // Désactiver les touches de navigation
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Backspace' || e.key === 'F5' || (e.key === 'r' && e.ctrlKey)) {
+            e.preventDefault();
+        }
+    });
+</script>
+{% endblock %}
