@@ -1,88 +1,84 @@
 <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
 <script>
-    let timer;
-    let animationContainer;
-    let lottiePlayer;
+    (function() {
+        let timer;
+        let animationContainer;
+        let lottiePlayer;
 
-    const redirectToHome = () => {
-        window.location.href = '/borne'; // Remplacez par l'URL de votre page d'accueil
-    };
+        const redirectToHome = () => {
+            window.location.href = '/borne';
+        };
 
-    const resetTimer = () => {
-        clearTimeout(timer);
-        if (animationContainer) {
-            animationContainer.style.display = 'none';
-            // Réinitialiser l'animation Lottie
-            if (lottiePlayer) {
-                lottiePlayer.stop();
-            }
-        }
-        
-        // Stocke le temps de départ
-        const startTime = new Date().getTime();
-        
-        timer = setTimeout(() => {
-            redirectToHome();
-        }, 10000);
-
-        // Vérifie périodiquement le temps écoulé
-        const checkTime = () => {
-            const elapsedTime = new Date().getTime() - startTime;
-            if (elapsedTime >= 5000 && animationContainer) {
-                animationContainer.style.display = 'block';
-                // Relancer l'animation Lottie
-                if (lottiePlayer) {
-                    lottiePlayer.play();
-                }
-            } else if (animationContainer) {
+        const resetTimer = () => {
+            clearTimeout(timer);
+            if (animationContainer) {
                 animationContainer.style.display = 'none';
+                if (lottiePlayer) {
+                    lottiePlayer.stop();
+                }
             }
             
-            if (elapsedTime < 10000) {
-                requestAnimationFrame(checkTime);
-            }
+            const startTime = new Date().getTime();
+            
+            timer = setTimeout(() => {
+                redirectToHome();
+            }, 10000);
+
+            const checkTime = () => {
+                const elapsedTime = new Date().getTime() - startTime;
+                if (elapsedTime >= 5000 && animationContainer) {
+                    animationContainer.style.display = 'block';
+                    if (lottiePlayer) {
+                        lottiePlayer.play();
+                    }
+                } else if (animationContainer) {
+                    animationContainer.style.display = 'none';
+                }
+                
+                if (elapsedTime < 10000) {
+                    requestAnimationFrame(checkTime);
+                }
+            };
+            
+            requestAnimationFrame(checkTime);
         };
-        
-        requestAnimationFrame(checkTime);
-    };
 
-    // Créez l'animation Lottie dès le début
-    window.onload = () => {
-        animationContainer = document.createElement('div');
-        animationContainer.style.position = 'absolute';
-        animationContainer.style.zIndex = '1000';
-        animationContainer.style.top = '0px';
-        animationContainer.style.right = '0px';
-        animationContainer.style.display = 'none'; // Masque l'animation au départ
-        document.body.appendChild(animationContainer);
+        const initAnimation = () => {
+            // Supprimer les anciennes instances s'il y en a
+            if (animationContainer) {
+                animationContainer.remove();
+            }
 
-        lottiePlayer = document.createElement('dotlottie-player');
-        lottiePlayer.setAttribute('src', 'https://lottie.host/a3821694-9f9f-47e1-9781-8f170d48b9c1/AfDnMzbh5I.lottie');
-        lottiePlayer.setAttribute('background', 'transparent');
-        lottiePlayer.setAttribute('speed', '1');
-        lottiePlayer.style.width = '300px';
-        lottiePlayer.style.height = '300px';
-        lottiePlayer.setAttribute('direction', '1');
-        lottiePlayer.setAttribute('playMode', 'normal');
-        lottiePlayer.setAttribute('loop', '');
-        animationContainer.appendChild(lottiePlayer);
+            animationContainer = document.createElement('div');
+            animationContainer.style.position = 'absolute';
+            animationContainer.style.zIndex = '1000';
+            animationContainer.style.top = '0px';
+            animationContainer.style.right = '0px';
+            animationContainer.style.display = 'none';
+            document.body.appendChild(animationContainer);
 
-        resetTimer(); // Démarre le timer
-    };
+            lottiePlayer = document.createElement('dotlottie-player');
+            lottiePlayer.setAttribute('src', 'https://lottie.host/a3821694-9f9f-47e1-9781-8f170d48b9c1/AfDnMzbh5I.lottie');
+            lottiePlayer.setAttribute('background', 'transparent');
+            lottiePlayer.setAttribute('speed', '1');
+            lottiePlayer.style.width = '300px';
+            lottiePlayer.style.height = '300px';
+            lottiePlayer.setAttribute('direction', '1');
+            lottiePlayer.setAttribute('playMode', 'normal');
+            lottiePlayer.setAttribute('loop', '');
+            animationContainer.appendChild(lottiePlayer);
+        };
 
-    // Écoutez les événements d'interaction que ce soit sur pc, mobile, tablette
-    document.onmousemove = resetTimer;
-    document.onkeypress = resetTimer;
-    document.ontouchmove = resetTimer;
-    document.ontouchend = resetTimer;
-    document.onscroll = resetTimer;
-    document.onkeydown = resetTimer;
-    document.onmouseup = resetTimer;
-    document.onmousedown = resetTimer;
-    document.onmouseover = resetTimer;
-    document.onmouseout = resetTimer;
-    document.onmousemove = resetTimer;
-    document.onmouseleave = resetTimer;
-    document.onmouseenter = resetTimer;
+        // Initialisation au chargement de la page
+        window.addEventListener('load', () => {
+            initAnimation();
+            resetTimer();
+        });
 
+        // Événements d'interaction
+        const interactionEvents = ['mousemove', 'keypress', 'touchmove', 'touchend', 'scroll', 'keydown', 'mouseup', 'mousedown', 'mouseover', 'mouseout', 'mouseleave', 'mouseenter'];
+        interactionEvents.forEach(event => {
+            document.addEventListener(event, resetTimer);
+        });
+    })();
 </script>

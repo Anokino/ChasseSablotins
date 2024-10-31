@@ -68,14 +68,22 @@ class BorneController extends AbstractController
         // On fait la somme des nombres entrés
         $sommeNombres = array_sum(array_map('intval', $numbers));
         
-        // On compare le total des nombres entrés avec le total du mot du jour
-        if($sommeNombres == $motDuJourSommeNombres) {
+        // On compare le total des nombres entrés avec le total du mot du jour, et on regarde si on à le même nombre de nombres
+        if($sommeNombres == $motDuJourSommeNombres && count($numbers) == count($motDuJourNombres)) {
             // Si c'est bon, on retourne sur la vue de fin, avec les nombres du mot du jour dans l'ordre, soit pour chocolat : 3; 8; 3; 15; 12; 12; 15;
             return $this->redirectToRoute('app_borne_finish', [
                 'popup' => 'true',
                 'motDuJourNombres' => json_encode($motDuJourNombres)
             ]);
         } else {
+            // si on a pas le même nombre de nombres, on affiche un message d'erreur et on affiche le nombre de nombres manquant
+            if(count($numbers) != count($motDuJourNombres)) {
+                $this->addFlash('danger', 'Il te manque ' . count($motDuJourNombres) - count($numbers) . ' nombre(s)');
+            }
+            // si on a le même nombre de nombres mais que la somme est différente, on affiche un message d'erreur pour dire que les nombres sont incorrects
+            if(count($numbers) == count($motDuJourNombres) && $sommeNombres != $motDuJourSommeNombres) {
+                $this->addFlash('danger', 'Tu as le bon nombre de nombres mais il y a une faute quelque part !');
+            } 
             // Si c'est pas bon, on redirige vers la page de fin avec un message d'erreur
             return $this->redirectToRoute('app_borne_finish', [
                 'error' => 'true',

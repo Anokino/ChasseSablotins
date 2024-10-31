@@ -228,11 +228,13 @@
 <div class="finish-container">
     <h1 class="finish-title">🔢 Entre tous les numéros affichés en haut de ton téléphone 📱</h1>
     {% if error %}
-        <div class="error-message">
-            <span>❌</span>
-            Vérifie que tu as entré tous les nombres
-            <span>❌</span>
-        </div>
+        {% for message in app.flashes('danger') %}
+            <div class="error-message">
+                <span>❌</span>
+                {{ message }}
+                <span>❌</span>
+            </div>
+        {% endfor %}
     {% endif %}
 
     <!--<div class="numbers-list" id="numbersList">
