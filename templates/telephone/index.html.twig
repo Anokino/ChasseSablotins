@@ -31,7 +31,7 @@
 
     .phone-content {
         background: rgba(255, 255, 255, 0.9);
-        padding: 2rem;
+        padding: 1.5rem;
         border-radius: 2rem;
         box-shadow: 0 10px 30px rgba(0,0,0,0.15);
         text-align: center;
@@ -113,6 +113,20 @@
         }
     );
 
+    // Obtenir les caméras disponibles
+    Html5Qrcode.getCameras().then(devices => {
+        if (devices && devices.length) {
+            // Chercher la caméra arrière
+            const backCamera = devices.find(device => device.label.toLowerCase().includes("back"));
+            const cameraId = backCamera ? backCamera.id : devices[0].id; // Utiliser la caméra arrière ou la première caméra disponible
+
+            // Démarrer le scanner avec la caméra sélectionnée
+            html5QrcodeScanner.render(onScanSuccess, onScanFailure, { facingMode: { exact: cameraId } });
+        }
+    }).catch(err => {
+        console.error("Erreur lors de l'obtention des caméras : ", err);
+    });
+
     function onScanSuccess(decodedText, decodedResult) {
         // Arrêter le scanner
         html5QrcodeScanner.clear();
@@ -124,9 +138,6 @@
     function onScanFailure(error) {
         // Gérer les erreurs silencieusement
     }
-
-    // Démarrer le scanner
-    html5QrcodeScanner.render(onScanSuccess, onScanFailure);
 
     // Désactiver le menu contextuel
     document.addEventListener('contextmenu', event => event.preventDefault());
