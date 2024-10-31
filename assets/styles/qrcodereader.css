@@ -1,0 +1,87 @@
+/* Styles pour le conteneur principal du scanner */
+#reader {
+    border: 8px solid #FFB347 !important;
+    border-radius: 2rem !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+    padding: 1rem !important;
+    max-width: 800px !important;
+    margin: 2rem auto !important;
+}
+
+/* Style pour la région de scan */
+#reader__scan_region {
+    border-radius: 1rem !important;
+    overflow: hidden !important;
+    background: linear-gradient(145deg, #FFE5F1, #FFB6C1) !important;
+    padding: 1rem !important;
+}
+
+/* Style pour la vidéo */
+#reader__scan_region video {
+    border-radius: 1rem !important;
+    border: 4px solid white !important;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2) !important;
+    width: inherit!important;
+}
+
+/* Style pour la région ombrée */
+#qr-shaded-region {
+    border-color: rgba(255, 107, 107, 0.5) !important;
+}
+
+/* Style pour les coins de scan */
+#qr-shaded-region div {
+    background-color: #4ECDC4 !important;
+    box-shadow: 0 0 10px rgba(78, 205, 196, 0.5) !important;
+}
+
+/* Style pour les boutons */
+.html5-qrcode-element {
+    font-family: 'Comic Neue', cursive !important;
+    font-size: 1.2rem !important;
+    padding: 0.5rem 1.5rem !important;
+    border: none !important;
+    border-radius: 1rem !important;
+    background: linear-gradient(145deg, #FF6B6B, #4ECDC4) !important;
+    color: white !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    margin: 0.5rem !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2) !important;
+}
+
+/* Style pour le hover des boutons */
+.html5-qrcode-element:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2) !important;
+}
+
+/* Style pour le select des caméras */
+#html5-qrcode-select-camera {
+    font-family: 'Comic Neue', cursive !important;
+    font-size: 1rem !important;
+    padding: 0.5rem !important;
+    border-radius: 0.5rem !important;
+    border: 3px solid #FFB347 !important;
+    background: white !important;
+    cursor: pointer !important;
+}
+
+/* Style pour le message d'en-tête */
+#reader__header_message {
+    font-family: 'Comic Neue', cursive !important;
+    color: #FF6B6B !important;
+    font-size: 1.2rem !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+    border-radius: 0.5rem !important;
+    margin: 1rem !important;
+}
+
+/* Style pour le dashboard */
+#reader__dashboard {
+    background: rgba(255, 255, 255, 0.7) !important;
+    border-radius: 1rem !important;
+    padding: 1rem !important;
+    margin-top: 1rem !important;
+}
