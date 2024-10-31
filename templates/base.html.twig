@@ -11,11 +11,17 @@
 
         {% block stylesheets %}
         <style>
+            /* on enlève les styles par défaut */
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
             /* Taille de base pour desktop */
             html {
                 font-size: 16px;
             }
-
+            
             /* Tablettes */
             @media screen and (max-width: 768px) {
                 html {
